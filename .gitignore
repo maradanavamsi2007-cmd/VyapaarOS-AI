@@ -1,0 +1,39 @@
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+*.env.local
+*.env.*.local
+
+# Portable Git
+git-portable/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# SQLite databases
+backend/db/database.sqlite
+*.db
+*.sqlite
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
