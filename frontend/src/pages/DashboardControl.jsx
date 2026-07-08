@@ -266,6 +266,15 @@ export default function DashboardControl() {
       alert("Phone number and message required.");
       return;
     }
+    
+    // Clean phone number (strip spaces, symbols, pluses)
+    const cleanPhone = directPhone.replace(/[^0-9]/g, '');
+    const encodedText = encodeURIComponent(directMessage);
+    const waUrl = `https://wa.me/${cleanPhone}?text=${encodedText}`;
+    
+    // Open in new tab
+    window.open(waUrl, '_blank');
+
     try {
       const res = await fetch('http://localhost:5000/api/business/whatsapp-direct', {
         method: 'POST',
@@ -274,16 +283,12 @@ export default function DashboardControl() {
       });
       const json = await res.json();
       if (json.success) {
-        alert(json.simulated ? "WhatsApp message simulated successfully!" : "WhatsApp message dispatched via Meta API!");
         fetchStats();
-      } else {
-        alert("Failed to send WhatsApp message: " + json.message);
       }
     } catch (e) {
-      alert("Dispatched WhatsApp message (Simulated local fallback success).");
       if (dashboardData) {
         const updatedLogs = [
-          { log_id: dashboardData.agent_logs.length + 1, timestamp: new Date().toISOString(), stage: "WhatsApp Integration Engine", status: "success", detail: `Direct WhatsApp message sent to ${directPhone} (Offline simulated)` },
+          { log_id: dashboardData.agent_logs.length + 1, timestamp: new Date().toISOString(), stage: "WhatsApp Integration Engine", status: "success", detail: `Direct WhatsApp message redirected to ${directPhone} (wa.me link)` },
           ...dashboardData.agent_logs
         ];
         setDashboardData({ ...dashboardData, agent_logs: updatedLogs });
