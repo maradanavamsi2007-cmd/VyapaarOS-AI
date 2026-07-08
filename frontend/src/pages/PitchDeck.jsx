@@ -344,9 +344,24 @@ export default function PitchDeck() {
 
   const readSpeech = () => {
     if ('speechSynthesis' in window) {
+      // Clear queue and resume speech system (fixes Chrome/Edge pause locks)
       window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
+
       const speakText = new SpeechSynthesisUtterance(slides[currentSlide].notes);
+      speakText.lang = 'en-US';
       speakText.rate = 0.95;
+      speakText.pitch = 1.0;
+
+      // Select proper English voice if available
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const preferredVoice = voices.find(v => v.lang.includes('en-IN') || v.lang.includes('en-US') || v.lang.includes('en-GB'));
+        if (preferredVoice) {
+          speakText.voice = preferredVoice;
+        }
+      }
+
       window.speechSynthesis.speak(speakText);
     } else {
       alert("TTS not supported in this browser.");
