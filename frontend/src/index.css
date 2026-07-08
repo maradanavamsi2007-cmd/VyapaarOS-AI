@@ -600,5 +600,21 @@ input[type="range"]::-webkit-slider-thumb:hover {
   }
 }
 
+/* Orange Warning Pulse */
+.pulse-orange-glow {
+  animation: pulse-orange 1.5s infinite ease-in-out alternate;
+}
+
+@keyframes pulse-orange {
+  0% {
+    box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+    border-color: rgba(245, 158, 11, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.9);
+    border-color: #f59e0b;
+  }
+}
+
 
 

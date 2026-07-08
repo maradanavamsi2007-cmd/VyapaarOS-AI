@@ -1471,6 +1471,24 @@ async function initDb() {
       saveMockDb();
       console.log('✅ VyapaarOS AI Mock database seeded successfully.');
     }
+    
+    // Dynamically guarantee pending PO #2 for low-stock Premium Sona Masoori Rice is seeded
+    if (mockDb.operations && !mockDb.operations["2"]) {
+      mockDb.operations["2"] = { 
+        po_id: 2, 
+        supplier: "Sri Balaji Distributors", 
+        item: "Premium Sona Masoori Rice (25kg)", 
+        qty: 20, 
+        amount: 22000, 
+        status: "pending", 
+        date: "2026-07-08", 
+        reason: "Rice bags inventory dropped to 12. Minimum limit is 15. Auto-reorder triggered.", 
+        confidence: 97, 
+        business_impact: "Secures core wholesale food grains availability for Hyderabad region weekly peak demand." 
+      };
+      mockCounters.operations = Math.max(mockCounters.operations || 0, 2);
+      saveMockDb();
+    }
     return;
   }
 

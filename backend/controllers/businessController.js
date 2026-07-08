@@ -343,12 +343,16 @@ exports.approvePO = async (req, res) => {
     // 1. Update PO status in operations
     await db.collection('operations').doc(String(poId)).update({ status: "approved" });
 
-    // 2. Increment stock of milk in inventory
+    // 2. Increment stock of the matched item in inventory
     const invDocs = await db.collection('inventory').get();
-    const milkItem = invDocs.docs.find(doc => doc.data().name.includes('Milk'));
-    if (milkItem) {
-      const currentStock = milkItem.data().stock;
-      await db.collection('inventory').doc(String(milkItem.id)).update({
+    const matchedItem = invDocs.docs.find(doc => {
+      const dbName = doc.data().name.toLowerCase();
+      const poItemName = poData.item.toLowerCase();
+      return poItemName.includes(dbName) || dbName.includes(poItemName);
+    });
+    if (matchedItem) {
+      const currentStock = matchedItem.data().stock;
+      await db.collection('inventory').doc(String(matchedItem.id)).update({
         stock: currentStock + poData.qty
       });
     }

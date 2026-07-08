@@ -305,8 +305,16 @@ export default function DashboardControl() {
     } catch (e) {
       alert("Approved PO (Offline Fallback implemented).");
       if (dashboardData) {
+        const targetPo = dashboardData.operations.find(op => op.po_id === poId);
+        const qty = targetPo ? targetPo.qty : 50;
+        const itemName = targetPo ? targetPo.item : "Milk";
+
         const updatedInv = dashboardData.inventory.map(item => {
-          if (item.name.includes("Milk")) return { ...item, stock: item.stock + 50 };
+          const match = item.name.toLowerCase();
+          const target = itemName.toLowerCase();
+          if (match.includes(target) || target.includes(match)) {
+            return { ...item, stock: item.stock + qty };
+          }
           return item;
         });
         const updatedOps = dashboardData.operations.map(op => {
@@ -929,29 +937,53 @@ export default function DashboardControl() {
               {/* Visual timeline */}
               <div className="glass-panel" style={{ padding: '24px' }}>
                 <h3 style={{ fontSize: '16px', marginBottom: '20px' }}>Procurement & Dispatch Timeline Flow</h3>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
-                  {[
-                    { step: "Scan Invoice", active: true },
-                    { step: "Update Stock", active: true },
-                    { step: "Check Suppliers", active: true },
-                    { step: "Forecast demand", active: true },
-                    { step: "Create PO Draft", active: true },
-                    { step: "Approve Order", active: false }
-                  ].map((node, i) => (
-                    <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, zIndex: 2 }}>
-                      <div style={{
-                        width: '24px', height: '24px', borderRadius: '50%',
-                        background: node.active ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
-                        border: '2px solid var(--bg-primary)', display: 'flex', alignItems: 'center', justify: 'center',
-                        fontSize: '10px', color: node.active ? 'var(--bg-primary)' : 'var(--text-secondary)'
-                      }}>
-                        {i+1}
-                      </div>
-                      <span style={{ fontSize: '11px', marginTop: '6px', color: node.active ? 'var(--text-primary)' : 'var(--text-muted)' }}>{node.step}</span>
+                
+                {(() => {
+                  const hasPending = operations.some(op => op.status === 'pending');
+                  const steps = [
+                    { step: "Scan Invoice", active: true, isWarning: false },
+                    { step: "Update Stock", active: true, isWarning: false },
+                    { step: "Check Suppliers", active: true, isWarning: false },
+                    { step: "Forecast demand", active: true, isWarning: false },
+                    { step: "Create PO Draft", active: true, isWarning: false },
+                    { step: "Approve Order", active: !hasPending, isWarning: hasPending }
+                  ];
+                  
+                  return (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', width: '100%' }}>
+                      {steps.map((node, i) => {
+                        const isWarningPulse = node.isWarning;
+                        return (
+                          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, zIndex: 2 }}>
+                            <div className={isWarningPulse ? 'pulse-orange-glow' : ''} style={{
+                              width: '28px', height: '28px', borderRadius: '50%',
+                              background: node.active ? 'var(--primary)' : isWarningPulse ? '#f59e0b' : 'rgba(255,255,255,0.1)',
+                              border: '2px solid var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: '11px', fontWeight: 'bold',
+                              color: node.active ? 'var(--bg-primary)' : isWarningPulse ? '#fff' : 'var(--text-secondary)',
+                              boxShadow: node.active ? '0 0 10px var(--primary-glow)' : isWarningPulse ? '0 0 15px rgba(245,158,11,0.5)' : 'none',
+                              transition: 'all 0.3s ease'
+                            }}>
+                              {i+1}
+                            </div>
+                            <span style={{ fontSize: '11px', marginTop: '8px', fontWeight: node.active || isWarningPulse ? 'bold' : 'normal', color: node.active ? 'var(--text-primary)' : isWarningPulse ? '#f59e0b' : 'var(--text-muted)' }}>{node.step}</span>
+                          </div>
+                        );
+                      })}
+                      {/* Background grey route line */}
+                      <div style={{ position: 'absolute', top: '13px', left: '8%', right: '8%', height: '2px', background: 'rgba(255,255,255,0.05)', zIndex: 1 }} />
+                      {/* Active progress neon route line */}
+                      <div style={{ 
+                        position: 'absolute', top: '13px', left: '8%', width: !hasPending ? '84%' : '67%', height: '2px', 
+                        background: 'linear-gradient(90deg, var(--primary) 0%, #00f0ff 100%)', 
+                        boxShadow: '0 0 8px var(--primary-glow)',
+                        zIndex: 1,
+                        transition: 'width-flow 0.5s ease-in-out',
+                        transitionProperty: 'width'
+                      }} />
                     </div>
-                  ))}
-                  <div style={{ position: 'absolute', top: '11px', left: '8%', right: '8%', height: '2px', background: 'rgba(255,255,255,0.1)', zIndex: 1 }} />
-                </div>
+                  );
+                })()}
               </div>
 
               {/* Current Inventory stock status */}
