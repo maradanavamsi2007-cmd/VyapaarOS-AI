@@ -313,7 +313,7 @@ AI Executes Task
 
 🔗 Video:
 
-( Google Drive Link :           )
+( Google Drive Link :    https://drive.google.com/file/d/1XPIcOe6FbREc7KhT1kzISneYxnbs8SQW/view?usp=drive_link       )
 
 ---
 
