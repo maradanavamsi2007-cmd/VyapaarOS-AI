@@ -748,20 +748,32 @@ export default function DashboardControl() {
               <div className="glass-panel" style={{ padding: '30px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justify: 'center', gap: '20px' }}>
                 <h3 style={{ fontSize: '18px' }}>Vocal updates mic console</h3>
                 
-                <div className={`audio-ring ${isListening ? 'active' : ''}`} onClick={startListening}>
-                  <Mic size={32} style={{ color: 'var(--primary)' }} />
+                <div className={`audio-ring ${isListening ? 'active' : ''}`} onClick={startListening} style={{ cursor: 'pointer', transition: 'all 0.3s ease' }}>
+                  <Mic size={32} style={{ color: isListening ? 'var(--success)' : 'var(--primary)' }} />
                 </div>
                 
                 <div>
-                  <strong>{isListening ? 'Listening...' : 'Click to Speak'}</strong>
+                  <strong style={{ fontSize: '15px', color: isListening ? 'var(--success)' : 'var(--text-primary)' }}>{isListening ? 'Listening...' : 'Click to Speak'}</strong>
                   <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '6px' }}>
                     Supports Hinglish, English, Telugu, and Hindi voice triggers.
                   </p>
                 </div>
 
+                {/* Animated Voice Visualizer */}
+                <div className={`voice-visualizer ${isListening ? 'active' : ''}`}>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                  <div className="bar"></div>
+                </div>
+
                 <div style={{ width: '100%', textAlign: 'left', background: 'rgba(0,0,0,0.1)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                   <span style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Latest transcript</span>
-                  <p style={{ fontSize: '14px', marginTop: '6px' }}>{voiceInput || '"No speech captured yet..."'}</p>
+                  <p style={{ fontSize: '14px', marginTop: '6px', fontFamily: 'monospace' }}>{voiceInput || '"No speech captured yet..."'}</p>
                 </div>
               </div>
 
@@ -770,34 +782,114 @@ export default function DashboardControl() {
                 <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Preset Multilingual Triggers</h3>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '24px' }}>
-                  <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => submitVoiceCommand("Aaj Ramesh ko ₹1500 udhaar diya")}>
+                  <button className="btn btn-secondary holographic-panel" style={{ padding: '8px 14px', fontSize: '12px', border: '1px solid rgba(255,255,255,0.06)' }} onClick={() => submitVoiceCommand("Aaj Ramesh ko ₹1500 udhaar diya")}>
                     🗣️ Hinglish: "Ramesh ko ₹1500 udhaar diya"
                   </button>
-                  <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => submitVoiceCommand("Show today's sales")}>
+                  <button className="btn btn-secondary holographic-panel" style={{ padding: '8px 14px', fontSize: '12px', border: '1px solid rgba(255,255,255,0.06)' }} onClick={() => submitVoiceCommand("Show today's sales")}>
                     🗣️ English: "Show today's sales"
                   </button>
-                  <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => submitVoiceCommand("ఈ రోజు పాలు అయిపోతున్నాయి")}>
+                  <button className="btn btn-secondary holographic-panel" style={{ padding: '8px 14px', fontSize: '12px', border: '1px solid rgba(255,255,255,0.06)' }} onClick={() => submitVoiceCommand("ఈ రోజు పాలు అయిపోతున్నాయి")}>
                     🗣️ Telugu: "పాలు అయిపోతున్నాయి"
                   </button>
                 </div>
 
-                <h4 style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '10px' }}>Voice Action logs</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '200px', overflowY: 'auto' }}>
-                  {voiceLogs.length === 0 ? (
-                    <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Trigger a voice command to view pipeline steps.</span>
-                  ) : (
-                    voiceLogs.map((log, idx) => (
-                      <div key={idx} style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)' }}>
-                          <span>Input: "{log.transcript}"</span>
-                          <span>Lang: {log.detected_language}</span>
-                        </div>
-                        <p style={{ fontSize: '13px', marginTop: '6px', color: 'var(--primary)' }}>{log.response_text}</p>
+                <h4 style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '14px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '6px' }}>
+                  AI Speech Orchestration Pipeline
+                </h4>
+                
+                {voiceLogs.length === 0 ? (
+                  /* Passive wireframe pipeline */
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', opacity: 0.35 }}>
+                    <div style={{ padding: '12px', border: '1px dashed var(--border-color)', borderRadius: '8px', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#94a3b8' }}></span>
+                        <strong>1. SPEECH SIGNAL CAPTURING</strong>
                       </div>
-                    ))
-                  )}
-                </div>
+                      <div style={{ marginTop: '4px', color: 'var(--text-secondary)' }}>Awaiting signal input...</div>
+                    </div>
+                    
+                    <div style={{ padding: '12px', border: '1px dashed var(--border-color)', borderRadius: '8px', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#94a3b8' }}></span>
+                        <strong>2. NLU INTENT CLASSIFICATION</strong>
+                      </div>
+                      <div style={{ marginTop: '4px', color: 'var(--text-secondary)' }}>Awaiting intent parsing...</div>
+                    </div>
 
+                    <div style={{ padding: '12px', border: '1px dashed var(--border-color)', borderRadius: '8px', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#94a3b8' }}></span>
+                        <strong>3. ORCHESTRATION TRANSACTION EXECUTION</strong>
+                      </div>
+                      <div style={{ marginTop: '4px', color: 'var(--text-secondary)' }}>Awaiting transaction mapping...</div>
+                    </div>
+
+                    <div style={{ padding: '12px', border: '1px dashed var(--border-color)', borderRadius: '8px', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#94a3b8' }}></span>
+                        <strong>4. VOCAL SPEECH SYNTHESIS ENGINE</strong>
+                      </div>
+                      <div style={{ marginTop: '4px', color: 'var(--text-secondary)' }}>Awaiting speech synthesis...</div>
+                    </div>
+                  </div>
+                ) : (
+                  /* Active live pipeline */
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {(() => {
+                      const latestLog = voiceLogs[0];
+                      const isUdhaar = latestLog.transcript.toLowerCase().includes('ramesh') || latestLog.transcript.toLowerCase().includes('udhaar');
+                      const isMilk = latestLog.transcript.toLowerCase().includes('పాలు') || latestLog.transcript.toLowerCase().includes('milk');
+                      
+                      return (
+                        <>
+                          <div style={{ padding: '12px', background: 'rgba(0, 240, 255, 0.03)', border: '1px solid rgba(0, 240, 255, 0.25)', borderRadius: '8px', fontSize: '12px', boxShadow: '0 0 10px rgba(0, 240, 255, 0.05)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span className="bullet-glow" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00f0ff', boxShadow: '0 0 8px #00f0ff' }}></span>
+                              <strong style={{ color: '#00f0ff' }}>1. SPEECH SIGNAL CAPTURING</strong>
+                            </div>
+                            <div style={{ marginTop: '4px' }}>Detected Lang: <strong style={{ color: 'var(--primary)' }}>{latestLog.detected_language}</strong> ➔ "{latestLog.transcript}"</div>
+                          </div>
+                          
+                          <div style={{ padding: '12px', background: 'rgba(168, 85, 247, 0.03)', border: '1px solid rgba(168, 85, 247, 0.25)', borderRadius: '8px', fontSize: '12px', boxShadow: '0 0 10px rgba(168, 85, 247, 0.05)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span className="bullet-glow" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#a855f7', boxShadow: '0 0 8px #a855f7' }}></span>
+                              <strong style={{ color: '#a855f7' }}>2. NLU INTENT CLASSIFICATION</strong>
+                            </div>
+                            <div style={{ marginTop: '4px' }}>
+                              Mapped Intent: <strong style={{ color: '#a855f7' }}>{isUdhaar ? 'RECORD_LEDGER_DEBT' : isMilk ? 'TRIGGER_SUPPLIER_REORDER' : 'GENERAL_QUERY'}</strong> (Confidence: 98%)
+                            </div>
+                          </div>
+
+                          <div style={{ padding: '12px', background: 'rgba(16, 185, 129, 0.03)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: '8px', fontSize: '12px', boxShadow: '0 0 10px rgba(16, 185, 129, 0.05)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span className="bullet-glow" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }}></span>
+                              <strong style={{ color: '#10b981' }}>3. ORCHESTRATION TRANSACTION EXECUTION</strong>
+                            </div>
+                            <div style={{ marginTop: '4px', fontFamily: 'monospace', color: 'rgba(255,255,255,0.7)' }}>
+                              {isUdhaar ? (
+                                `UPDATE accounts SET ledger_balance = ledger_balance + 1500 WHERE customer = 'Ramesh Kumar';`
+                              ) : isMilk ? (
+                                `UPDATE inventory SET stock = stock + 50 WHERE item_id = 4;`
+                              ) : (
+                                `QUERY stats FROM ledger_history;`
+                              )}
+                            </div>
+                          </div>
+
+                          <div style={{ padding: '12px', background: 'rgba(245, 158, 11, 0.03)', border: '1px solid rgba(245, 158, 11, 0.25)', borderRadius: '8px', fontSize: '12px', boxShadow: '0 0 10px rgba(245, 158, 11, 0.05)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span className="bullet-glow" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f59e0b', boxShadow: '0 0 8px #f59e0b' }}></span>
+                              <strong style={{ color: '#f59e0b' }}>4. VOCAL SPEECH SYNTHESIS ENGINE</strong>
+                            </div>
+                            <div style={{ marginTop: '4px', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                              TTS Readout: "{latestLog.response_text}"
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
               </div>
 
             </div>

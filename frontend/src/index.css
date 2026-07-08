@@ -554,4 +554,51 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: translateZ(20px) rotateX(2deg) rotateY(2deg);
 }
 
+/* Voice Visualizer Waves */
+.voice-visualizer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.voice-visualizer .bar {
+  width: 4px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: height 0.2s ease, background 0.3s ease;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.voice-visualizer.active .bar {
+  animation: bounce-wave 0.8s infinite ease-in-out alternate;
+  background: var(--primary);
+}
+
+.voice-visualizer.active .bar:nth-child(2) { animation-delay: 0.1s; }
+.voice-visualizer.active .bar:nth-child(3) { animation-delay: 0.2s; }
+.voice-visualizer.active .bar:nth-child(4) { animation-delay: 0.3s; }
+.voice-visualizer.active .bar:nth-child(5) { animation-delay: 0.4s; }
+.voice-visualizer.active .bar:nth-child(6) { animation-delay: 0.5s; }
+.voice-visualizer.active .bar:nth-child(7) { animation-delay: 0.6s; }
+.voice-visualizer.active .bar:nth-child(8) { animation-delay: 0.7s; }
+
+@keyframes bounce-wave {
+  0% {
+    height: 8px;
+    opacity: 0.4;
+  }
+  100% {
+    height: 36px;
+    opacity: 1;
+    background: #00f0ff;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  }
+}
+
+
 
