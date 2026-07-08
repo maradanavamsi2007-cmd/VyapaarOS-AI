@@ -1410,6 +1410,67 @@ async function initDb() {
     } else {
       console.log('✅ Local Mock database initialized from persistent file.');
     }
+
+    // VyapaarOS AI Seeding
+    if (!mockDb.business_profile) {
+      console.log('ℹ️ Seeding local mock memory database with VyapaarOS AI collections.');
+      
+      mockDb.business_profile = {
+        "1": {
+          id: 1,
+          name: "Krishna Kirana Store",
+          owner: "Krishna Prasad",
+          city: "Hyderabad, Telangana",
+          gstin: "36AAAAA1111A1Z1",
+          currency: "INR",
+          health_score: 94,
+          daily_win_summary: "Processed ₹28,450 in revenue. Recovered ₹3,500 from Ramesh (ledger). Maintained 94% inventory fill rate."
+        }
+      };
+
+      mockDb.inventory = {
+        "1": { item_id: 1, name: "Premium Sona Masoori Rice (25kg)", category: "Groceries", stock: 12, min_stock: 15, unit: "Bags", cost_price: 1100, selling_price: 1350, supplier: "Sri Balaji Distributors" },
+        "2": { item_id: 2, name: "Gold Winner Sunflower Oil (1L)", category: "Oils", stock: 45, min_stock: 20, unit: "Packets", cost_price: 115, selling_price: 140, supplier: "Sri Balaji Distributors" },
+        "3": { item_id: 3, name: "Tata Salt Lite (1kg)", category: "Groceries", stock: 30, min_stock: 10, unit: "Packets", cost_price: 22, selling_price: 28, supplier: "Sri Venkateshwara Traders" },
+        "4": { item_id: 4, name: "Heritage Full Cream Milk (500ml)", category: "Dairy", stock: 3, min_stock: 25, unit: "Packets", cost_price: 27, selling_price: 31, supplier: "Heritage Dairy Depot" },
+        "5": { item_id: 5, name: "Aashirvaad Shudh Chakki Atta (5kg)", category: "Groceries", stock: 18, min_stock: 15, unit: "Packets", cost_price: 220, selling_price: 260, supplier: "Sri Venkateshwara Traders" },
+        "6": { item_id: 6, name: "Toor Dal Premium (1kg)", category: "Groceries", stock: 8, min_stock: 12, unit: "Packets", cost_price: 140, selling_price: 175, supplier: "Sri Balaji Distributors" }
+      };
+
+      mockDb.transactions = {
+        "1": { tx_id: 1, type: "sales", customer: "Ramesh Kumar", amount: 1500, payment_mode: "ledger (udhaar)", date: "2026-07-07", description: "Monthly groceries purchase", status: "pending" },
+        "2": { tx_id: 2, type: "sales", customer: "Sita Sharma", amount: 450, payment_mode: "UPI", date: "2026-07-08", description: "Milk, bread and oil", status: "paid" },
+        "3": { tx_id: 3, type: "sales", customer: "Anil Reddy", amount: 3200, payment_mode: "Cash", date: "2026-07-08", description: "Rice bag and groceries", status: "paid" },
+        "4": { tx_id: 4, type: "expense", customer: "Gachibowli Power Corp", amount: 4800, payment_mode: "UPI", date: "2026-07-05", description: "Electricity bill", status: "paid" },
+        "5": { tx_id: 5, type: "expense", customer: "Raju Properties", amount: 15000, payment_mode: "Bank Transfer", date: "2026-07-01", description: "Shop rent", status: "paid" },
+        "6": { tx_id: 6, type: "purchase", customer: "Heritage Dairy Depot", amount: 1350, payment_mode: "UPI", date: "2026-07-08", description: "Purchased 50 packets of milk", status: "paid" }
+      };
+
+      mockDb.operations = {
+        "1": { po_id: 1, supplier: "Heritage Dairy Depot", item: "Heritage Full Cream Milk (500ml)", qty: 50, amount: 1350, status: "completed", date: "2026-07-08", reason: "Stock dropped below reorder level (3 packets left, limit 25)", confidence: 99, business_impact: "Avoids 10% daily customer churn for fresh dairy items" }
+      };
+
+      mockDb.campaigns = {
+        "1": { camp_id: 1, name: "Shravan Festival Discount", target_segment: "At-Risk Customers", channel: "WhatsApp", message: "Shravan Special Offer! Get 5% off on all groceries at Krishna Kirana Store today. Show this msg at billing.", status: "sent", sent_count: 42, conversions: 8 }
+      };
+
+      mockDb.agent_logs = {
+        "1": { log_id: 1, timestamp: "2026-07-08T07:15:00.000Z", stage: "Language Detection", status: "success", detail: "Detected Telugu input: 'ఈ రోజు పాలు అయిపోతున్నాయి.'" },
+        "2": { log_id: 2, timestamp: "2026-07-08T07:15:01.000Z", stage: "Intent Extraction", status: "success", detail: "Identified low-stock notification for Heritage Milk" },
+        "3": { log_id: 3, timestamp: "2026-07-08T07:15:02.000Z", stage: "Planner Agent", status: "success", detail: "Checking supplier rates and lead time for Heritage Dairy Depot" },
+        "4": { log_id: 4, timestamp: "2026-07-08T07:15:03.000Z", stage: "Finance Review", status: "success", detail: "Checked cash flow safety. Cash reserves adequate. Proceeding with PO recommendation" }
+      };
+
+      mockCounters.business_profile = 1;
+      mockCounters.inventory = 6;
+      mockCounters.transactions = 6;
+      mockCounters.operations = 1;
+      mockCounters.campaigns = 1;
+      mockCounters.agent_logs = 4;
+
+      saveMockDb();
+      console.log('✅ VyapaarOS AI Mock database seeded successfully.');
+    }
     return;
   }
 

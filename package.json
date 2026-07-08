@@ -1,4 +1,11 @@
 {
+  "name": "vyapaaros-ai",
+  "version": "1.0.0",
+  "description": "VyapaarOS AI - India's first Autonomous AI Business Operating System",
+  "main": "start.js",
+  "scripts": {
+    "start": "node start.js"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2"
   }

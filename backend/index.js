@@ -30,19 +30,22 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Register routers
 app.use('/api/workshops', require('./routes/workshopRoutes'));
 app.use('/api/registrations', require('./routes/registrationRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
+app.use('/api/business', require('./routes/businessRoutes'));
 app.use('/api/students', require('./routes/studentRoutes'));
 app.use('/api/certificates', require('./routes/certificateRoutes'));
 
-// Serve static assets if in production environment (Optional React build binding)
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.redirect('http://localhost:5173');
   });
 }
 
