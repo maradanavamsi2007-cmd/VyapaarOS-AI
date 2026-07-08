@@ -490,6 +490,46 @@
         "status": "sent",
         "sent_count": 42,
         "conversions": 0
+      },
+      "5": {
+        "camp_id": 5,
+        "name": "Festival WhatsApp Campaign",
+        "target_segment": "At-Risk Customers",
+        "channel": "WhatsApp",
+        "message": "Special Shravan Offer! Get 5% off at Krishna Kirana Store today. Show this msg at billing.",
+        "status": "sent",
+        "sent_count": 42,
+        "conversions": 0
+      },
+      "6": {
+        "camp_id": 6,
+        "name": "Festival WhatsApp Campaign",
+        "target_segment": "At-Risk Customers",
+        "channel": "WhatsApp",
+        "message": "Special Shravan Offer! Get 5% off at Krishna Kirana Store today. Show this msg at billing.",
+        "status": "sent",
+        "sent_count": 42,
+        "conversions": 0
+      },
+      "7": {
+        "camp_id": 7,
+        "name": "Festival WhatsApp Campaign",
+        "target_segment": "At-Risk Customers",
+        "channel": "WhatsApp",
+        "message": "Special Shravan Offer! Get 5% off at Krishna Kirana Store today. Show this msg at billing.",
+        "status": "sent",
+        "sent_count": 42,
+        "conversions": 0
+      },
+      "8": {
+        "camp_id": 8,
+        "name": "Festival WhatsApp Campaign",
+        "target_segment": "At-Risk Customers",
+        "channel": "WhatsApp",
+        "message": "Special Shravan Offer! Get 5% off at Krishna Kirana Store today. Show this msg at billing.",
+        "status": "sent",
+        "sent_count": 42,
+        "conversions": 0
       }
     },
     "agent_logs": {
@@ -562,6 +602,55 @@
         "stage": "Execution Engine",
         "status": "success",
         "detail": "Added ₹1,500 credit transaction for Ramesh Kumar in ledger."
+      },
+      "11": {
+        "log_id": 11,
+        "timestamp": "2026-07-08T03:34:52.441Z",
+        "stage": "Growth Execution Engine",
+        "status": "success",
+        "detail": "Dispatched WhatsApp Marketing Campaign to 42 customers in segment 'At-Risk Customers'."
+      },
+      "12": {
+        "log_id": 12,
+        "timestamp": "2026-07-08T03:34:55.482Z",
+        "stage": "WhatsApp Integration Engine",
+        "status": "success",
+        "detail": "Direct WhatsApp message sent to +91 98401 12345 (Status: Simulated Dispatch). Msg: \"Namaste, please clear your out...\""
+      },
+      "13": {
+        "log_id": 13,
+        "timestamp": "2026-07-08T03:36:45.848Z",
+        "stage": "WhatsApp Integration Engine",
+        "status": "success",
+        "detail": "Direct WhatsApp message sent to +91 98401 12345 (Status: Simulated Dispatch). Msg: \"Namaste, please clear your out...\""
+      },
+      "14": {
+        "log_id": 14,
+        "timestamp": "2026-07-08T03:37:01.699Z",
+        "stage": "Growth Execution Engine",
+        "status": "success",
+        "detail": "Dispatched WhatsApp Marketing Campaign to 42 customers in segment 'At-Risk Customers'."
+      },
+      "15": {
+        "log_id": 15,
+        "timestamp": "2026-07-08T03:40:11.539Z",
+        "stage": "Growth Execution Engine",
+        "status": "success",
+        "detail": "Dispatched WhatsApp Marketing Campaign to 42 customers in segment 'At-Risk Customers'."
+      },
+      "16": {
+        "log_id": 16,
+        "timestamp": "2026-07-08T03:43:44.886Z",
+        "stage": "Growth Execution Engine",
+        "status": "success",
+        "detail": "Dispatched WhatsApp Marketing Campaign to 42 customers in segment 'At-Risk Customers'."
+      },
+      "17": {
+        "log_id": 17,
+        "timestamp": "2026-07-08T03:43:55.918Z",
+        "stage": "WhatsApp Integration Engine",
+        "status": "success",
+        "detail": "Direct WhatsApp message sent to +91 9154500229 (Status: Simulated Dispatch). Msg: \"Namaste, please clear your out...\""
       }
     }
   },

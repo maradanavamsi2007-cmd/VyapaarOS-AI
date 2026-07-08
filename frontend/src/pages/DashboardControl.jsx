@@ -26,6 +26,39 @@ import {
   Users
 } from 'lucide-react';
 
+function CountUp({ end, prefix = "", suffix = "", duration = 1000 }) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const endValue = parseInt(end);
+    if (isNaN(endValue)) {
+      setValue(end);
+      return;
+    }
+    if (endValue === 0) return;
+    
+    const range = endValue;
+    let current = start;
+    const increment = endValue > start ? Math.ceil(range / (duration / 16)) : -1;
+    const stepTime = 16;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if ((increment > 0 && current >= endValue) || (increment < 0 && current <= endValue)) {
+        clearInterval(timer);
+        setValue(endValue);
+      } else {
+        setValue(current);
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [end, duration]);
+
+  return <span>{prefix}{value.toLocaleString()}{suffix}</span>;
+}
+
 export default function DashboardControl() {
   const [activeTab, setActiveTab] = useState('copilot');
   const [loading, setLoading] = useState(false);
@@ -449,7 +482,7 @@ export default function DashboardControl() {
                       <circle cx="50" cy="50" r="40" className="bg-circle" />
                       <circle cx="50" cy="50" r="40" className="val-circle" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * profile.health_score) / 100} />
                     </svg>
-                    <span style={{ position: 'absolute', fontSize: '20px', fontWeight: 'bold' }}>{profile.health_score}%</span>
+                    <span style={{ position: 'absolute', fontSize: '20px', fontWeight: 'bold' }}><CountUp end={profile.health_score} suffix="%" /></span>
                   </div>
                   <div>
                     <h4 style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>AI Health Score</h4>
@@ -459,7 +492,7 @@ export default function DashboardControl() {
 
                 <div className="glass-panel" style={{ padding: '24px' }}>
                   <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Today's Revenue</span>
-                  <h3 style={{ fontSize: '26px', margin: '8px 0 4px' }}>₹{kpis.revenue}</h3>
+                  <h3 style={{ fontSize: '26px', margin: '8px 0 4px' }}><CountUp end={kpis.revenue} prefix="₹" /></h3>
                   <span style={{ fontSize: '11px', color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <TrendingUp size={12} /> +12.4% vs yesterday
                   </span>
@@ -467,13 +500,13 @@ export default function DashboardControl() {
 
                 <div className="glass-panel" style={{ padding: '24px' }}>
                   <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Estimated Profit</span>
-                  <h3 style={{ fontSize: '26px', margin: '8px 0 4px' }}>₹{kpis.profit}</h3>
+                  <h3 style={{ fontSize: '26px', margin: '8px 0 4px' }}><CountUp end={kpis.profit} prefix="₹" /></h3>
                   <span style={{ fontSize: '11px', color: 'var(--success)' }}>22.3% average margin</span>
                 </div>
 
                 <div className="glass-panel" style={{ padding: '24px' }}>
                   <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Pending Ledger (Udhaar)</span>
-                  <h3 style={{ fontSize: '26px', margin: '8px 0 4px', color: 'var(--warning)' }}>₹{kpis.pendingPayments}</h3>
+                  <h3 style={{ fontSize: '26px', margin: '8px 0 4px', color: 'var(--warning)' }}><CountUp end={kpis.pendingPayments} prefix="₹" /></h3>
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Ramesh Kumar (ledger)</span>
                 </div>
               </div>
