@@ -211,10 +211,10 @@ export default function LandingPage() {
             VYAPAAR<span style={{ color: 'var(--primary)' }}>OS</span>
           </span>
         </div>
-        <nav style={{ display: 'flex', gap: '32px' }}>
+        <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
           <a href="#features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>Features</a>
           <a href="#demo" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>Interactive Demo</a>
-          <a href="#architecture" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>System Twin</a>
+          <span onClick={() => navigate('/pitch')} style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '14px', fontWeight: '500', cursor: 'pointer' }}>3D Presentation</span>
         </nav>
         <button className="btn btn-primary" onClick={() => navigate('/dashboard')} style={{ padding: '8px 18px' }}>
           Launch Dashboard <ArrowRight size={16} />
@@ -238,7 +238,10 @@ export default function LandingPage() {
         <p style={{ color: 'var(--text-secondary)', fontSize: '18px', lineHeight: '1.6', maxWidth: '750px', margin: '0 auto 36px', fontWeight: '400' }}>
           Talk naturally. Upload bills. VyapaarOS handles ledger, tracks inventory, generates orders, predicts shortages, and simulates pricing strategies autonomously.
         </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <button className="btn btn-indigo" onClick={() => navigate('/pitch')} style={{ padding: '14px 28px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+            View 3D Presentation Pitch <Sparkles size={16} />
+          </button>
           <a href="#demo" className="btn btn-primary" style={{ padding: '14px 28px' }}>
             Try Interactive Demo <Play size={16} />
           </a>

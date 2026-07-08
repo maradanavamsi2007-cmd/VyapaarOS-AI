@@ -530,6 +530,16 @@
         "status": "sent",
         "sent_count": 42,
         "conversions": 0
+      },
+      "9": {
+        "camp_id": 9,
+        "name": "Festival WhatsApp Campaign",
+        "target_segment": "At-Risk Customers",
+        "channel": "WhatsApp",
+        "message": "Special Shravan Offer! Get 5% off at Krishna Kirana Store today. Show this msg at billing.",
+        "status": "sent",
+        "sent_count": 42,
+        "conversions": 0
       }
     },
     "agent_logs": {
@@ -651,6 +661,13 @@
         "stage": "WhatsApp Integration Engine",
         "status": "success",
         "detail": "Direct WhatsApp message sent to +91 9154500229 (Status: Simulated Dispatch). Msg: \"Namaste, please clear your out...\""
+      },
+      "18": {
+        "log_id": 18,
+        "timestamp": "2026-07-08T03:52:28.860Z",
+        "stage": "Growth Execution Engine",
+        "status": "success",
+        "detail": "Dispatched WhatsApp Marketing Campaign to 42 customers in segment 'At-Risk Customers'."
       }
     }
   },
