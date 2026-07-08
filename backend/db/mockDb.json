@@ -324,7 +324,7 @@
         "item_id": 4,
         "name": "Heritage Full Cream Milk (500ml)",
         "category": "Dairy",
-        "stock": 53,
+        "stock": 103,
         "min_stock": 25,
         "unit": "Packets",
         "cost_price": 27,
@@ -434,6 +434,16 @@
         "date": "2026-07-08",
         "description": "Udhaar added via Voice Command",
         "status": "pending"
+      },
+      "9": {
+        "tx_id": 9,
+        "type": "purchase",
+        "customer": "Heritage Dairy Depot",
+        "amount": 1350,
+        "payment_mode": "UPI",
+        "date": "2026-07-08",
+        "description": "Replenished 50 packets via PO approval",
+        "status": "paid"
       }
     },
     "operations": {
@@ -668,6 +678,13 @@
         "stage": "Growth Execution Engine",
         "status": "success",
         "detail": "Dispatched WhatsApp Marketing Campaign to 42 customers in segment 'At-Risk Customers'."
+      },
+      "19": {
+        "log_id": 19,
+        "timestamp": "2026-07-08T10:11:06.545Z",
+        "stage": "Approval & Execution Engine",
+        "status": "success",
+        "detail": "Approved Purchase Order #1. Dispatched to Heritage Dairy Depot. Stock incremented."
       }
     }
   },

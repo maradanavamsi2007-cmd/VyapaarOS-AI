@@ -592,9 +592,29 @@ export default function DashboardControl() {
                 <div className="glass-panel" style={{ padding: '30px', textAlign: 'center' }}>
                   <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Invoice Laser Scanner Feed</h3>
                   
-                  <div className={`laser-scanner`} style={{ height: '200px', background: 'rgba(0,0,0,0.3)', border: '1px dashed var(--border-color)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+                  <div className={`laser-scanner`} style={{ height: '200px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-color)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
                     {scanning ? (
                       <div style={{ color: 'var(--primary)' }}>Scanning Invoice. Running OCR extraction...</div>
+                    ) : ocrCompleted ? (
+                      <div style={{ padding: '20px', width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '6px', marginBottom: '6px' }}>
+                          <span style={{ color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 'bold' }}>
+                            <Check size={14} /> Scan Completed
+                          </span>
+                          <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>INV-2026-884</span>
+                        </div>
+                        <div style={{ textAlign: 'left', fontSize: '12px', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <div><strong>Vendor:</strong> {vendorVal}</div>
+                          <div><strong>Invoice Date:</strong> 2026-07-08</div>
+                          <div><strong>Total Amount:</strong> ₹1,350.00</div>
+                        </div>
+                        <button className="btn btn-secondary" style={{ marginTop: '6px', padding: '4px 8px', fontSize: '11px', alignSelf: 'flex-start' }} onClick={() => {
+                          setOcrCompleted(false);
+                          setDuplicateWarning(false);
+                        }}>
+                          Scan Another Invoice
+                        </button>
+                      </div>
                     ) : (
                       <div>
                         <ScanLine size={48} style={{ color: 'var(--text-muted)', margin: '0 auto 12px' }} />
