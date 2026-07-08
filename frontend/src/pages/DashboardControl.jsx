@@ -69,6 +69,7 @@ export default function DashboardControl() {
   const [ocrCompleted, setOcrCompleted] = useState(false);
   const [detectedFields, setDetectedFields] = useState([]);
   const [vendorVal, setVendorVal] = useState("Heritage Dairy Depot");
+  const [invoiceNoVal, setInvoiceNoVal] = useState("INV-2026-884");
   const [notebookNotes, setNotebookNotes] = useState("Bought 50 packets of milk for shop inventory. Delivery confirmed on time.");
   const [duplicateWarning, setDuplicateWarning] = useState(false);
 
@@ -240,6 +241,7 @@ export default function DashboardControl() {
         if (json.success) {
           setDetectedFields(json.data.detected_fields);
           setVendorVal(json.data.vendor);
+          setInvoiceNoVal(json.data.invoice_no);
           
           // Trigger duplicate banner if invoice number is INV-2026-884
           if (json.data.invoice_no === "INV-2026-884") {
@@ -695,6 +697,17 @@ export default function DashboardControl() {
                     <div>
                       <label>Vendor Name (Editable)</label>
                       <input type="text" value={vendorVal} onChange={(e) => setVendorVal(e.target.value)} />
+                    </div>
+                    <div>
+                      <label>Invoice Number (Editable)</label>
+                      <input type="text" value={invoiceNoVal} onChange={(e) => {
+                        setInvoiceNoVal(e.target.value);
+                        if (e.target.value === "INV-2026-884") {
+                          setDuplicateWarning(true);
+                        } else {
+                          setDuplicateWarning(false);
+                        }
+                      }} />
                     </div>
                     <div>
                       <label>Invoice Date</label>
