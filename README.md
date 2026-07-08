@@ -305,7 +305,7 @@ AI Executes Task
 
 🔗 Website:
 
-( Vercel URL :   https://2-three-rho.vercel.app      )
+( Vercel URL :   https://2-three-rho.vercel.app/dashboard      )
 
 ---
 
