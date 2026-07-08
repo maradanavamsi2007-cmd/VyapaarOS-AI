@@ -211,35 +211,58 @@ export default function DashboardControl() {
     }
   };
 
-  // OCR Laser Scan Simulation
-  const handleOcrScan = async () => {
+  // OCR Laser Scan Trigger
+  const handleOcrScan = () => {
+    document.getElementById('invoice-file-upload').click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
     setScanning(true);
     setDuplicateWarning(false);
-    setTimeout(async () => {
-      setScanning(false);
-      setOcrCompleted(true);
-      
-      // Simulate duplicate check (checking if invoice INV-2026-884 was scanned earlier)
-      setDuplicateWarning(true); // Flag duplicate detected in scanner
+    setOcrCompleted(false);
 
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64String = reader.result;
       try {
         const res = await fetch('http://localhost:5000/api/business/ocr-scan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fileName: "receipt.jpg" })
+          body: JSON.stringify({
+            imageBase64: base64String,
+            mimeType: file.type
+          })
         });
         const json = await res.json();
         if (json.success) {
           setDetectedFields(json.data.detected_fields);
           setVendorVal(json.data.vendor);
+          
+          // Trigger duplicate banner if invoice number is INV-2026-884
+          if (json.data.invoice_no === "INV-2026-884") {
+            setDuplicateWarning(true);
+          }
+          setOcrCompleted(true);
+        } else {
+          alert("OCR Scan failed: " + json.message);
         }
-      } catch (e) {
+      } catch (err) {
+        console.error("OCR API error, loading mock fallback details.", err);
         setDetectedFields([
-          { name: "Vendor", value: "Heritage Dairy Depot", confidence: 99 },
-          { name: "Total", value: "₹1,350.00", confidence: 98 }
+          { name: "Vendor (Offline)", value: "Heritage Dairy Depot", confidence: 99 },
+          { name: "Total (Offline)", value: "₹1,350.00", confidence: 98 }
         ]);
+        setVendorVal("Heritage Dairy Depot");
+        setDuplicateWarning(true);
+        setOcrCompleted(true);
+      } finally {
+        setScanning(false);
       }
-    }, 2000);
+    };
+    reader.readAsDataURL(file);
   };
 
   const confirmOcr = async () => {
@@ -617,6 +640,7 @@ export default function DashboardControl() {
                       </div>
                     ) : (
                       <div>
+                        <input type="file" id="invoice-file-upload" accept="image/*" style={{ display: 'none' }} onChange={handleFileChange} />
                         <ScanLine size={48} style={{ color: 'var(--text-muted)', margin: '0 auto 12px' }} />
                         <button className="btn btn-secondary" onClick={handleOcrScan}>Upload & Scan Supplier Invoice</button>
                       </div>
